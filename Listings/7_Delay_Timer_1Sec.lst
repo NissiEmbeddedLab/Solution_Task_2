@@ -1,0 +1,50 @@
+C51 COMPILER V9.60.0.0   7_DELAY_TIMER_1SEC                                                05/10/2020 19:48:33 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE 7_DELAY_TIMER_1SEC
+OBJECT MODULE PLACED IN .\Objects\7_Delay_Timer_1Sec.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE 7_Delay_Timer_1Sec.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\7_Delay_Timer_1Sec.lst) TABS(2) OBJECT(.\Objects\7_Delay_Timer_1Sec.obj)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          void T0M1Delay(unsigned int x);   //how many times you need to run by this argument
+   3          void main(void)
+   4          {
+   5   1        while(1)
+   6   1        {
+   7   2            P1 = 0x0F;
+   8   2            T0M1Delay(50);              // 50x10msec = 1000msec or 1sec if you want to 2sec replace 100 by 200
+   9   2            P1 = ~P1;
+  10   2            T0M1Delay(50);
+  11   2        }
+  12   1      }
+  13          void T0M1Delay(unsigned int x)    //function to create 10msec delay 
+  14          {
+  15   1        unsigned int a;
+  16   1        for(a=0;a<x;a++)
+  17   1        {
+  18   2        TMOD = 0x01;
+  19   2        TH0 = 0xD8;                     //0XD8F0 FOR 10msec delay @12MHz Oscillator frquency
+  20   2        TL0 = 0xF0;
+  21   2        TR0 = 1;
+  22   2        while(TF0 == 0);
+  23   2        TR0 = 0;
+  24   2        TF0 = 0;
+  25   2        }
+  26   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     58    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
